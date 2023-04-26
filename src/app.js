@@ -24,11 +24,12 @@ initModels()
 
 app.get('/', (req, res) => {
     responseHandlers.success({
-        res, 
+        res,
         status: 200,
         message: 'Servidor inicializado correctamente',
         data: {
-            "users": `${config.host}/api/v1/users`,      }
+            "users": `${config.host}/api/v1/users`,
+        }
     })
 })
 
@@ -44,5 +45,5 @@ app.use('*', (req, res)=> {
 })
 
 app.listen(config.port,() => {
-    console.log(`Server started at port ${config.host}`)
+    console.log(`Server started at port ${config.port}`)
 })
