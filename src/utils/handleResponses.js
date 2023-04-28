@@ -34,7 +34,7 @@ const error = ({status, data, message, res, fields}) => {
 
 module.exports = {
     success,
-    error
+    error,
 }
 
 //? Error de conexion

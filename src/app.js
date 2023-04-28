@@ -8,7 +8,7 @@ const upload = require('./utils/multer')
 
 const userRouter = require('./users/users.router')
 const authRouter = require('./auth/auth.router')
-
+const moviesRouter = require('./movies/movies.router')
 const app = express()
 
 app.use(express.json())
@@ -32,16 +32,21 @@ app.get('/', (req, res) => {
             "users": `${config.host}/api/v1/users`,
         }
     })
+});
+
+app.get('/query',(req, res) => {
+    res.status(200).json({myQueryGenre: req.query.genre, queries: req.query })
 })
 
-app.post('/upload-file', upload.single('myImage'),(req, res) => {
-const file = req.file
+//? ruta de ejemplo parasubbir imagenes 
+app.post('/upload-file', upload.fields([{name:'uploadFile', maxCount: 1 }, {name: 'cualquiera', maxCount: 1 }]),(req, res) => {
+const file = req.files
     res.status(200).json({file})
 })
 
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
-
+app.use('/api/v1/movies', moviesRouter) 
 app.use('*', (req, res)=> {
     responseHandlers.error({
         res,
