@@ -57,7 +57,50 @@ responses.error({
    }
 };
 
+const postGenreToMovie = (req, res) => {
+    const {movieId, genreID} = req.params
+    movieControllers.addGenreToMovie({movieId, genreID})
+    .then(data =>{
+        responses.success({
+            res,
+            status: 201,
+            message: 'Genre added to movie successfully',
+            data
+        })
+    })
+    .catch(err => {
+        responses.error({
+            res,
+            status: 400,
+            message: err.message,
+            data:err
+        })
+    })
+};
+const getAllMoviesByGenre = (req, res) => {
+    const genreId = req.params.genreId
+    movieControllers.findAllMoviesByGenre(genreId)
+    .then(data => {
+        responses.success({
+            res,
+            status: 200,
+            data,
+            message: 'Getting all the movies'
+        });
+    })
+    .catch(err => {
+        responses.error({
+            res,
+            data: err,
+            message:'Something bad gettting the movies',
+            status:400,
+        });
+    })
+    };
+
 module.exports = {
     getAllMovies,
     postMovie,
+    postGenreToMovie,
+    getAllMoviesByGenre,
 }

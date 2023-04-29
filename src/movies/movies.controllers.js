@@ -1,7 +1,21 @@
 const Movies = require('../models/movies.models');
+const MovieGenres = require('../models/movie_genres.models')
+const Genres = require('../models/genres.models')
 const uuid = require('uuid');
-const findAllMovies = async () => {
-    const data = await Movies.findAll()
+
+const findAllMovies = async (limit, offset) => {
+// limit -> Cuanto quiero mostrar 
+// offset -> Donde quiero mostrar
+   // const queryOptions = {
+// limit: limit || 20,
+// offset: offset || 0
+//     }
+//     if(limit && offset){
+//         queryOptions.limit = limit
+//         queryOptions.offset = offset
+//     }
+
+    const data = await Movies.findAndCountAll()
     return data
 }
 const createMovie = async (movieObj) => {
@@ -21,7 +35,30 @@ const newMovie = {
 const data = await Movies.create(newMovie); 
 return data;
 } 
+
+
+const addGenreToMovie = async (dataObj)=>{
+const data = await MovieGenres.create({
+    id: uuid.v4(),
+    movieId: dataObj.movieId,
+    genreId: dataObj.genreId
+})
+return data
+}
+const findAllMoviesByGenre = async (genreId) => {
+    const data = await Movies.findAll({
+        include: {
+            model: Genres,
+            where: {
+                id: genreId
+            }
+        }
+    })
+    return data
+}
 module.exports = {
     findAllMovies,
     createMovie,
+    addGenreToMovie,
+    findAllMoviesByGenre,
 }

@@ -9,6 +9,7 @@ const upload = require('./utils/multer')
 const userRouter = require('./users/users.router')
 const authRouter = require('./auth/auth.router')
 const moviesRouter = require('./movies/movies.router')
+const genreRouter = require('./genres/genres.router')
 const app = express()
 
 app.use(express.json())
@@ -47,6 +48,8 @@ const file = req.files
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/movies', moviesRouter) 
+app.use('/api/v1/genres', genreRouter)
+
 app.use('*', (req, res)=> {
     responseHandlers.error({
         res,
