@@ -1,10 +1,12 @@
 const express = require('express')
+const swaggerUi = require('swagger-ui-express')
 
 const responseHandlers = require('./utils/handleResponses')
 const db = require('./utils/database')
 const initModels = require('./models/initModels')
 const config = require('../config').api
 const upload = require('./utils/multer')
+const sawaggerDoc = require('./swagger.json')
 
 const userRouter = require('./users/users.router')
 const authRouter = require('./auth/auth.router')
@@ -49,7 +51,7 @@ app.use('/api/v1/users', userRouter)
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/movies', moviesRouter) 
 app.use('/api/v1/genres', genreRouter)
-
+app.use('/api/v1/docs',swaggerUi.serve, swaggerUi.setup(sawaggerDoc))
 app.use('*', (req, res)=> {
     responseHandlers.error({
         res,
